@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run JSON Python script
+        run: |
+          python -c "
+import json
+
+json_str = '{\"name\": \"Tamim\", \"interests\": [\"Deep Tech\", \"Neurale Netze\", \"Python\"]}'
+
+data = json.loads(json_str)
+
+data['interests'].append('KI')
+
+print(json.dumps(data, indent=2))
+          "
